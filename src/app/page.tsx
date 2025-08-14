@@ -1,103 +1,240 @@
-import Image from "next/image";
+'use client'
 
-export default function Home() {
+import { useState, useCallback } from 'react'
+import { Github, Presentation, Clock, Users, Sparkles, AlertTriangle } from 'lucide-react'
+import { Header } from '@/app/components/Header'
+import { RepoInput } from '@/app/components/RepoInput'
+import { PresentationOptions } from '@/app/components/PresentationOptions'
+import { RunOfShowDisplay } from '@/app/components/RunOfShowDisplay'
+import { LoadingState } from '@/app/components/LoadingState'
+
+export type AudienceType = 'conference' | 'internal' | 'client' | 'interview'
+export type TimeConstraint = '5min' | '15min' | '30min' | '45min+'
+
+export interface PresentationConfig {
+  audience: AudienceType
+  timeConstraint: TimeConstraint
+  includeQA: boolean
+  includeLiveDemo: boolean
+}
+
+export interface RunOfShow {
+  title: string
+  overview: string
+  sections: Array<{
+    title: string
+    duration: string
+    content: string
+    presenterNotes: string[]
+    keyPoints: string[]
+  }>
+  qaPredictions?: string[]
+  techQuestions?: string[]
+  closingNotes: string
+}
+
+interface ApiResponse {
+  runOfShow: RunOfShow
+  metadata?: {
+    repoName: string
+    language: string
+    stars: number
+    generatedAt: string
+    config: PresentationConfig
+  }
+}
+
+export default function HomePage() {
+  const [repoUrl, setRepoUrl] = useState('')
+  const [config, setConfig] = useState<PresentationConfig>({
+    audience: 'conference',
+    timeConstraint: '15min',
+    includeQA: true,
+    includeLiveDemo: true,
+  })
+  const [runOfShow, setRunOfShow] = useState<RunOfShow | null>(null)
+  const [metadata, setMetadata] = useState<ApiResponse['metadata'] | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  const handleGenerate = useCallback(async () => {
+    if (!repoUrl.trim()) {
+      setError('Please enter a GitHub repository URL')
+      return
+    }
+
+    setIsLoading(true)
+    setError(null)
+
+    try {
+      const response = await fetch('/api/generate-runofshow', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          repoUrl: repoUrl.trim(),
+          config,
+        }),
+      })
+
+      const data: ApiResponse | { error: string } = await response.json()
+
+      if (!response.ok) {
+        throw new Error(
+          'error' in data 
+            ? data.error 
+            : `HTTP ${response.status}: ${response.statusText}`
+        )
+      }
+
+      if ('runOfShow' in data) {
+        setRunOfShow(data.runOfShow)
+        setMetadata(data.metadata || null)
+      } else {
+        throw new Error('Invalid response format from server')
+      }
+    } catch (err) {
+      console.error('Error generating run of show:', err)
+      const errorMessage = err instanceof Error 
+        ? err.message 
+        : 'An unexpected error occurred'
+      
+      setError(errorMessage)
+    } finally {
+      setIsLoading(false)
+    }
+  }, [repoUrl, config])
+
+  const handleReset = useCallback(() => {
+    setRunOfShow(null)
+    setMetadata(null)
+    setError(null)
+  }, [])
+
+  const handleConfigChange = useCallback((newConfig: PresentationConfig) => {
+    setConfig(newConfig)
+  }, [])
+
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+      <Header />
+      
+      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        {!runOfShow ? (
+          <>
+            {/* Hero Section */}
+            <div className="text-center mb-12 animate-fade-in">
+              <div className="flex justify-center mb-6">
+                <div className="flex items-center space-x-2 text-primary-600">
+                  <Github className="h-8 w-8" />
+                  <Sparkles className="h-6 w-6 animate-pulse-slow" />
+                  <Presentation className="h-8 w-8" />
+                </div>
+              </div>
+              <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
+                From Repo to <span className="text-primary-600">Runway</span>
+              </h1>
+              <p className="mt-6 max-w-2xl mx-auto text-xl text-gray-600 leading-relaxed">
+                Transform any GitHub repository into a compelling presentation with AI-powered insights. 
+                Perfect for conference talks, team demos, and technical presentations.
+              </p>
+            </div>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
+            {/* Feature highlights */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 animate-slide-up">
+              <div className="card p-6 text-center hover:scale-105 transition-transform duration-200">
+                <Users className="h-8 w-8 text-primary-600 mx-auto mb-3" />
+                <h3 className="font-semibold text-gray-900 mb-2">Audience-Aware</h3>
+                <p className="text-gray-600 text-sm">Adapts content and language for your specific audience</p>
+              </div>
+              <div className="card p-6 text-center hover:scale-105 transition-transform duration-200">
+                <Clock className="h-8 w-8 text-primary-600 mx-auto mb-3" />
+                <h3 className="font-semibold text-gray-900 mb-2">Time-Optimized</h3>
+                <p className="text-gray-600 text-sm">Perfect pacing for any presentation slot</p>
+              </div>
+              <div className="card p-6 text-center hover:scale-105 transition-transform duration-200">
+                <Presentation className="h-8 w-8 text-primary-600 mx-auto mb-3" />
+                <h3 className="font-semibold text-gray-900 mb-2">Speaker Notes</h3>
+                <p className="text-gray-600 text-sm">Detailed notes, timing, and Q&A preparation</p>
+              </div>
+            </div>
+
+            {/* Input Form */}
+            <div className="max-w-4xl mx-auto animate-slide-up">
+              <div className="card p-8">
+                <RepoInput
+                  value={repoUrl}
+                  onChange={setRepoUrl}
+                  error={error}
+                  disabled={isLoading}
+                />
+                
+                <div className="mt-8">
+                  <PresentationOptions
+                    config={config}
+                    onChange={handleConfigChange}
+                    disabled={isLoading}
+                  />
+                </div>
+
+                <div className="mt-8 flex justify-center">
+                  <button
+                    onClick={handleGenerate}
+                    disabled={isLoading || !repoUrl.trim()}
+                    className="btn-primary px-8 py-3 text-base font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isLoading ? (
+                      <>
+                        <Sparkles className="animate-spin -ml-1 mr-3 h-5 w-5" />
+                        Generating Presentation...
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="-ml-1 mr-3 h-5 w-5" />
+                        Generate Run of Show
+                      </>
+                    )}
+                  </button>
+                </div>
+
+                {/* Error Display */}
+                {error && !isLoading && (
+                  <div className="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg animate-slide-up">
+                    <div className="flex items-start">
+                      <AlertTriangle className="h-5 w-5 text-red-400 mt-0.5 mr-3 flex-shrink-0" />
+                      <div>
+                        <h3 className="text-sm font-medium text-red-800">
+                          Generation Failed
+                        </h3>
+                        <p className="text-sm text-red-700 mt-1">
+                          {error}
+                        </p>
+                        <button
+                          onClick={() => setError(null)}
+                          className="text-sm text-red-600 hover:text-red-500 mt-2 underline"
+                        >
+                          Try again
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {isLoading && <LoadingState />}
+          </>
+        ) : (
+          <RunOfShowDisplay
+            runOfShow={runOfShow}
+            repoUrl={repoUrl}
+            config={config}
+            metadata={metadata}
+            onReset={handleReset}
+          />
+        )}
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
-  );
+  )
 }

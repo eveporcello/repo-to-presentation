@@ -1,26 +1,106 @@
+/* Tailwind v4 */
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Enable class-based dark mode (so `dark:*` works with <html class="dark">) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ================= Theme tokens ================= */
+@theme {
+  /* fonts */
+  --font-sans: var(--font-inter), Inter, system-ui, sans-serif;
+
+  /* semantic colors (light) */
+  --color-background: hsl(0 0% 100%);
+  --color-foreground: hsl(222.2 47.4% 11.2%);
+  --color-border: hsl(214.3 31.8% 91.4%);
+  --color-input: hsl(214.3 31.8% 91.4%);
+  --color-ring: hsl(0 84% 60%);
+
+  /* primary scale */
+  --color-primary-50:  #fef3f2;
+  --color-primary-100: #fee4e2;
+  --color-primary-200: #fecaca;
+  --color-primary-300: #fca5a5;
+  --color-primary-400: #f87171;
+  --color-primary-500: #ef4444;
+  --color-primary-600: #dc2626;
+  --color-primary-700: #b91c1c;
+  --color-primary-800: #991b1b;
+  --color-primary-900: #7f1d1d;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Dark overrides */
+.dark {
+  --color-background: hsl(222.2 84% 4.9%);
+  --color-foreground: hsl(210 40% 98%);
+  --color-border: hsl(217.2 32.6% 17.5%);
+  --color-input: hsl(217.2 32.6% 17.5%);
+  --color-ring: hsl(0 84% 60%);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ================ Custom utilities ================ */
+/* Define a real utility called `btn` so @apply can use it */
+@utility btn {
+  @apply inline-flex items-center justify-center rounded-md text-sm font-medium
+         transition-all duration-200
+         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring
+         focus-visible:ring-offset-2 ring-offset-background
+         disabled:opacity-50 disabled:pointer-events-none;
+}
+
+/* ================ Base layer ================ */
+@layer base {
+  html {
+    font-feature-settings: 'cv02','cv03','cv04','cv11';
+    font-variation-settings: 'slnt' 0;
+    scroll-behavior: smooth;
+  }
+
+  /* default border uses your token */
+  * { @apply border-border; }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary-500;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ================ Components ================ */
+@layer components {
+  .btn-primary {
+    @apply btn bg-primary-600 text-white hover:bg-primary-700 active:bg-primary-800
+           h-10 py-2 px-4 shadow-sm hover:shadow-md;
+  }
+
+  .btn-secondary {
+    @apply btn bg-gray-100 text-gray-900 hover:bg-gray-200 active:bg-gray-300
+           h-10 py-2 px-4 border border-gray-300;
+  }
+
+  .input {
+    @apply flex h-10 w-full rounded-md border border-gray-300 bg-white
+           px-3 py-2 text-sm ring-offset-background
+           file:border-0 file:bg-transparent file:text-sm file:font-medium
+           placeholder:text-gray-500
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500
+           focus-visible:ring-offset-2
+           disabled:cursor-not-allowed disabled:opacity-50
+           transition-colors duration-200;
+  }
+
+  .card {
+    @apply rounded-lg border border-gray-200 bg-white shadow-sm
+           hover:shadow-md transition-shadow duration-200;
+  }
+
+  .animate-fade-in { animation: fadeIn 0.5s ease-in-out; }
+  .animate-slide-up { animation: slideUp 0.3s ease-out; }
 }
+
+/* ================ Keyframes ================ */
+@keyframes fadeIn { from {opacity:0} to {opacity:1} }
+@keyframes slideUp { from {opacity:0; transform:translateY(20px)}
+                     to   {opacity:1; transform:translateY(0)} }

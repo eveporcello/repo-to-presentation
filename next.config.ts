@@ -1,7 +1,50 @@
-import type { NextConfig } from "next";
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  // Enable React 19 features
+  reactStrictMode: true,
+  
+  // Enable Turbopack for faster development
+  experimental: {
+    turbo: {
+      rules: {
+        // Add any custom Turbopack rules here if needed
+      }
+    }
+  },
+  
 
-const nextConfig: NextConfig = {
-  /* config options here */
-};
+  
+  // Optimized image handling
+  images: {
+    formats: ['image/webp', 'image/avif'],
+  },
+  
+  // Security headers
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY',
+          },
+          {
+            key: 'X-XSS-Protection',
+            value: '1; mode=block',
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin',
+          },
+        ],
+      },
+    ]
+  },
+}
 
-export default nextConfig;
+module.exports = nextConfig
