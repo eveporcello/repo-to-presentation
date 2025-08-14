@@ -239,21 +239,23 @@ function generatePrompt(repoAnalysis: RepoAnalysis, config: PresentationConfig):
     conference: 'developer conference with technical audience expecting innovative solutions, best practices, and cutting-edge approaches',
     internal: 'team demonstration focusing on implementation details, architectural decisions, and collaboration benefits',
     client: 'business stakeholder presentation emphasizing value proposition, practical outcomes, and ROI',
-    interview: 'technical interview showcasing problem-solving approach, code quality, and engineering thinking'
+    interview: 'technical interview showcasing problem-solving approach, code quality, and engineering thinking',
+    workshop: 'hands-on learning session with interactive components, practical exercises, and audience participation'
   }
 
   const timeGuidance = {
     '5min': 'Lightning talk - hit only the most impressive highlights and key innovations',
     '15min': 'Balanced overview with key technical details and compelling demonstrations',
     '30min': 'Comprehensive walkthrough with deep dives into interesting technical sections',
-    '45min+': 'Detailed exploration with multiple examples, architecture deep-dives, and extensive Q&A preparation'
+    '1hour': 'Detailed exploration with multiple examples, architecture deep-dives, hands-on exercises, and extensive Q&A preparation'
   }
 
   const focusAreas = {
     conference: 'technical innovation, architecture decisions, performance optimizations, unique solutions',
     internal: 'implementation approach, team collaboration, development workflow, technical debt solutions',
     client: 'business value, user impact, scalability, reliability, time-to-market benefits',
-    interview: 'problem-solving process, code quality, testing approach, scalability considerations'
+    interview: 'problem-solving process, code quality, testing approach, scalability considerations',
+    workshop: 'practical application, hands-on exercises, interactive demonstrations, learning objectives'
   }
 
   return `You are an expert presentation coach specializing in technical demos and developer advocacy. Create a compelling, well-structured run-of-show for presenting this GitHub repository to ${audienceContext[config.audience]}.
@@ -299,6 +301,7 @@ SPECIFIC INSTRUCTIONS:
 - Balance technical depth with accessibility for the target audience
 - Suggest timing for dramatic pauses, code reveals, or demo moments
 - Anticipate skeptical questions and prepare confident responses
+${config.audience === 'workshop' ? '- Include hands-on exercises and interactive elements appropriate for the timeframe' : ''}
 
 Return a JSON object with this exact structure (ensure valid JSON syntax):
 {
@@ -388,7 +391,7 @@ export async function POST(request: NextRequest) {
     let response
     try {
       response = await anthropic.messages.create({
-        model: 'claude-3-5-sonnet-20241022',
+        model: 'claude-sonnet-4-20250514',
         max_tokens: 4000,
         temperature: 0.7, // Slightly higher for more creative presentations
         messages: [

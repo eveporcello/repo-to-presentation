@@ -14,19 +14,19 @@
   --color-foreground: hsl(222.2 47.4% 11.2%);
   --color-border: hsl(214.3 31.8% 91.4%);
   --color-input: hsl(214.3 31.8% 91.4%);
-  --color-ring: hsl(0 84% 60%);
+  --color-ring: hsl(150 84% 35%);
 
-  /* primary scale */
-  --color-primary-50:  #fef3f2;
-  --color-primary-100: #fee4e2;
-  --color-primary-200: #fecaca;
-  --color-primary-300: #fca5a5;
-  --color-primary-400: #f87171;
-  --color-primary-500: #ef4444;
-  --color-primary-600: #dc2626;
-  --color-primary-700: #b91c1c;
-  --color-primary-800: #991b1b;
-  --color-primary-900: #7f1d1d;
+  /* primary scale - forest green */
+  --color-primary-50:  #f0fdf4;
+  --color-primary-100: #dcfce7;
+  --color-primary-200: #bbf7d0;
+  --color-primary-300: #86efac;
+  --color-primary-400: #4ade80;
+  --color-primary-500: #22c55e;
+  --color-primary-600: #16a34a;
+  --color-primary-700: #15803d;
+  --color-primary-800: #166534;
+  --color-primary-900: #14532d;
 }
 
 /* Dark overrides */
@@ -35,7 +35,7 @@
   --color-foreground: hsl(210 40% 98%);
   --color-border: hsl(217.2 32.6% 17.5%);
   --color-input: hsl(217.2 32.6% 17.5%);
-  --color-ring: hsl(0 84% 60%);
+  --color-ring: hsl(150 84% 35%);
 }
 
 /* ================ Custom utilities ================ */

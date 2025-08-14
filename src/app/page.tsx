@@ -8,8 +8,8 @@ import { PresentationOptions } from '@/app/components/PresentationOptions'
 import { RunOfShowDisplay } from '@/app/components/RunOfShowDisplay'
 import { LoadingState } from '@/app/components/LoadingState'
 
-export type AudienceType = 'conference' | 'internal' | 'client' | 'interview'
-export type TimeConstraint = '5min' | '15min' | '30min' | '45min+'
+export type AudienceType = 'conference' | 'internal' | 'client' | 'interview' | 'workshop'
+export type TimeConstraint = '5min' | '15min' | '30min' | '1hour'
 
 export interface PresentationConfig {
   audience: AudienceType

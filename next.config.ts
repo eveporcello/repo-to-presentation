@@ -3,17 +3,8 @@ const nextConfig = {
   // Enable React 19 features
   reactStrictMode: true,
   
-  // Enable Turbopack for faster development
-  experimental: {
-    turbo: {
-      rules: {
-        // Add any custom Turbopack rules here if needed
-      }
-    }
-  },
-  
+  turbopack: {},
 
-  
   // Optimized image handling
   images: {
     formats: ['image/webp', 'image/avif'],

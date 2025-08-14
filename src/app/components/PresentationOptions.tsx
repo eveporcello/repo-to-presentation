@@ -27,6 +27,11 @@ const audienceOptions: Array<{ value: AudienceType; label: string; description: 
     value: 'interview',
     label: 'Technical Interview',
     description: 'Code walkthrough for job interviews'
+  },
+  {
+    value: 'workshop',
+    label: 'Workshop',
+    description: 'Hands-on learning session with interactive components'
   }
 ]
 
@@ -34,7 +39,7 @@ const timeOptions: Array<{ value: TimeConstraint; label: string }> = [
   { value: '5min', label: '5 minutes' },
   { value: '15min', label: '15 minutes' },
   { value: '30min', label: '30 minutes' },
-  { value: '45min+', label: '45+ minutes' }
+  { value: '1hour', label: '1 hour' }
 ]
 
 export function PresentationOptions({ config, onChange, disabled }: PresentationOptionsProps) {
@@ -54,7 +59,7 @@ export function PresentationOptions({ config, onChange, disabled }: Presentation
         <label className="block text-sm font-medium text-gray-700 mb-3">
           Target Audience
         </label>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
           {audienceOptions.map((option) => (
             <label
               key={option.value}
