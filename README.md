@@ -1,4 +1,4 @@
-<a alt="Repo Presenter logo featuring three green icons: a GitHub cat, a sparkling star, and a presentation screen, above large text Repo Presenter in black and green. The design is clean and modern, conveying a professional and inviting tone.">
+<img alt="Repo Presenter logo featuring three green icons: a GitHub cat, a sparkling star, and a presentation screen, above large text Repo Presenter in black and green. The design is clean and modern, conveying a professional and inviting tone." src="./public/repo-presenter.png" alt="Repo Presenter Demo" width="600" />
 
 **Turn your GitHub repo into your best presentation.**
 
@@ -6,15 +6,13 @@
 
 **Try It Now: [https://repo-presenter.vercel.app](https://repo-presenter.vercel.app)**
 
-1. **Paste**: `https://github.com/facebook/react` 
+1. **Paste a Repo Link**: Any public repo or select one of the options.
 2. **Select**: Desired type of presentation and length
 3. **Generate**: Complete presentation focusing on React's virtual DOM approach, component architecture, and ecosystem impact
 
-Or try it with your own repository - it works with any public GitHub repo.
-
 ## Overview
 
-Imagine you have 5 minutes to demo your latest project to potential investors, or 30 minutes to present at a developer conference. Instead of staring at a blank slide deck feeling panicked, you paste your GitHub URL and instantly get:
+Imagine you have 5 minutes to demo your latest project to potential investors or 30 minutes to present at a developer conference. Instead of staring at a blank slide deck feeling panicked, you reach for Repo Presenter, paste your GitHub URL, and instantly get:
 
 * A complete run-of-show with precise timing
 * Audience-tailored talking points
@@ -25,7 +23,7 @@ Repo Presenter gives you a map and a plan, so you can deliver a solid presentati
 
 ### Why I Chose This Demonstration
 
-I’ve been teaching and speaking in tech for years, and I know that it's hard to get started with a presentation plan. I've also seen developers struggle with uncertainty about presentations which can prevent them from presenting at all. I think that sharing your work is an important part of doing the work, and a tool that can instantly go from “here’s a repo” to “here’s a full plan” felt useful for all sorts of technical demo scenarios.
+I’ve been teaching and speaking in tech for 15 years, and I know that it's hard to get started crafting a presentation. I've also seen developers struggle with uncertainty about presentations which can prevent them from presenting at all. I think that sharing your work is an important part of doing the work, and a tool that can instantly go from “here’s a repo” to “here’s a full plan” felt useful for all sorts of technical demo scenarios.
 
 ## Local Setup Instructions
 
@@ -101,6 +99,7 @@ const prompt = buildPrompt({
 ## How I Used Claude in this Demo
 
 I wrote a structured prompt with:
+
 * Repo metadata (stars, language, description).
 * User-selected configuration options (audience, time, Q&A flag).
 * Instructions to output a JSON structure with:
@@ -110,11 +109,13 @@ I wrote a structured prompt with:
     * Closing notes
 
 I iterated by:
+
 * Tuning section title clarity and balance between technical and audience-friendly language.
 * Making durations consistent so they add up to the total time.
 * Keeping key points concise for quick scanning during a talk.
 
-Claude Usage in Development
+#### Claude Usage in Development
+
 * Code generation: Used Claude to generate component boilerplate (Tailwind classes especially!) and TypeScript interfaces
 * Documentation: Claude helped write clear, comprehensive comments
 * Prompt refinement: Iteratively improved prompts based on output quality
@@ -125,12 +126,12 @@ I think the speed at which you can generate a presenter artifact like this is pr
 
 This showcases Claude's ability to analyze complex codebases and pull out an engaging story. 
 
-Every developer faces the same challenge: **"I built something amazing, but how do I present it effectively?"**
+Every developer faces the same challenge: **"I built something amazing, but how do I present it well?"**
 
-- 🎯 **Conference speakers** spend 10+ hours planning talks that could be automated
-- 💼 **Job seekers** struggle to articulate their GitHub projects in interviews  
-- 👥 **Team leads** need quick ways to demo features to stakeholders
-- 🏢 **Open source maintainers** want to attract contributors with compelling presentations
+- **Conference speakers** spend 10, 20, 50+ hours planning talks
+- **Job seekers** struggle to articulate their GitHub projects in interviews  
+- **Team leads** need quick ways to demo features to stakeholders
+- **Open source maintainers** want to attract contributors with compelling presentations
 
 This tool eliminates the blank-page problem that prevents developers from sharing their best work.
 
@@ -144,3 +145,10 @@ If I'd had a bit more time, these are some features I would like to incorporate:
 * **Improvements to the Prompts**: A better version of this app would have more user input about the audience and might have additional opinionated guidelines from the app on how to deliver a quality presentation.
 * **Better Repo Parsing:** currently assumes the repo has a solid README or code structure. We could expand to handle repos without too much documentation better.
 * **Add Performance Upgrades for Bigger Repos**: This could probably use some performance tuning to make sure even hefty repos are scannable.
+
+## Thank You
+
+This was genuinely so fun. 
+
+Thanks,
+Eve
