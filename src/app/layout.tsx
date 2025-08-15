@@ -9,7 +9,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Pitch My Repo",
+  title: "Repo Presenter",
   description:
     "Turn your GitHub repo into your best presentation.",
   keywords: [
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   ],
   creator: "Eve Porcello",
   openGraph: {
-    title: "Pitch My Repo",
+    title: "Repo Presenter",
     description:
       "Turn your GitHub repo into your best presentation.",
     type: "website",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Pitch My Repo",
+    title: "Repo Presenter",
     description:
       "Turn your GitHub repo into your best presentation.",
     creator: "@eveporcello",
@@ -44,7 +44,9 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
-  metadataBase: new URL("https://pitch-my-repo.vercel.app"),
+  metadataBase: new URL(
+    "https://repo-presenter.vercel.app"
+  ),
 };
 
 export default function RootLayout({

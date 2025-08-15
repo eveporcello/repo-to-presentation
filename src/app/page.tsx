@@ -160,7 +160,7 @@ export default function HomePage() {
                 </div>
               </div>
               <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
-                Pitch My{" "}
+                {" "}
                 <span className="text-primary-600">
                   Repo
                 </span>

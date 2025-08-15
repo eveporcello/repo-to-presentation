@@ -1,4 +1,4 @@
-# Pitch My Repo
+# Repo Presenter
 
 A great demo takes some code and transforms it into an experience. 
 

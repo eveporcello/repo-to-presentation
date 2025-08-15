@@ -8,7 +8,7 @@ export function Header() {
           <div className="flex items-center space-x-3">
             <div className="flex items-center space-x-2 text-primary-600">
               <span className="text-xl font-bold text-gray-900">
-                Pitch My Repo
+                Repo Presenter
               </span>
             </div>
           </div>
