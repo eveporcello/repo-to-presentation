@@ -1,4 +1,4 @@
-# PushPitch
+# Pitch My Repo
 
 A great demo takes some code and transforms it into an experience. 
 

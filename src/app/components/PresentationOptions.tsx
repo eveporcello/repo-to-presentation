@@ -1,51 +1,71 @@
-import { Users, Clock, MessageCircle, Monitor } from 'lucide-react'
-import type { PresentationConfig, AudienceType, TimeConstraint } from '@/app/page'
+import { Users, Clock, MessageCircle } from "lucide-react";
+import type {
+  PresentationConfig,
+  AudienceType,
+  TimeConstraint,
+} from "@/app/page";
 
 interface PresentationOptionsProps {
-  config: PresentationConfig
-  onChange: (config: PresentationConfig) => void
-  disabled?: boolean
+  config: PresentationConfig;
+  onChange: (config: PresentationConfig) => void;
+  disabled?: boolean;
 }
 
-const audienceOptions: Array<{ value: AudienceType; label: string; description: string }> = [
+const audienceOptions: Array<{
+  value: AudienceType;
+  label: string;
+  description: string;
+}> = [
   {
-    value: 'conference',
-    label: 'Conference Talk',
-    description: 'Technical presentation for developer audience'
+    value: "conference",
+    label: "Conference Talk",
+    description:
+      "Technical presentation for developer audience",
   },
   {
-    value: 'internal',
-    label: 'Internal Demo',
-    description: 'Team demonstration or standup presentation'
+    value: "internal",
+    label: "Internal Demo",
+    description:
+      "Team demonstration or standup presentation",
   },
   {
-    value: 'client',
-    label: 'Client Presentation',
-    description: 'Business-focused demo for stakeholders'
+    value: "client",
+    label: "Client Presentation",
+    description: "Business-focused demo for stakeholders",
   },
   {
-    value: 'interview',
-    label: 'Technical Interview',
-    description: 'Code walkthrough for job interviews'
+    value: "interview",
+    label: "Technical Interview",
+    description: "Code walkthrough for job interviews",
   },
   {
-    value: 'workshop',
-    label: 'Workshop',
-    description: 'Hands-on learning session with interactive components'
-  }
-]
+    value: "workshop",
+    label: "Workshop",
+    description:
+      "Hands-on learning session with interactive components",
+  },
+];
 
-const timeOptions: Array<{ value: TimeConstraint; label: string }> = [
-  { value: '5min', label: '5 minutes' },
-  { value: '15min', label: '15 minutes' },
-  { value: '30min', label: '30 minutes' },
-  { value: '1hour', label: '1 hour' }
-]
+const timeOptions: Array<{
+  value: TimeConstraint;
+  label: string;
+}> = [
+  { value: "5min", label: "5 minutes" },
+  { value: "15min", label: "15 minutes" },
+  { value: "30min", label: "30 minutes" },
+  { value: "1hour", label: "1 hour" },
+];
 
-export function PresentationOptions({ config, onChange, disabled }: PresentationOptionsProps) {
-  const updateConfig = (updates: Partial<PresentationConfig>) => {
-    onChange({ ...config, ...updates })
-  }
+export function PresentationOptions({
+  config,
+  onChange,
+  disabled,
+}: PresentationOptionsProps) {
+  const updateConfig = (
+    updates: Partial<PresentationConfig>
+  ) => {
+    onChange({ ...config, ...updates });
+  };
 
   return (
     <div className="space-y-8">
@@ -65,11 +85,16 @@ export function PresentationOptions({ config, onChange, disabled }: Presentation
               key={option.value}
               className={`
                 relative cursor-pointer rounded-lg border p-4 focus:outline-none
-                ${config.audience === option.value
-                  ? 'border-primary-600 ring-2 ring-primary-600 bg-primary-50'
-                  : 'border-gray-300 bg-white hover:border-gray-400'
+                ${
+                  config.audience === option.value
+                    ? "border-primary-600 ring-2 ring-primary-600 bg-primary-50"
+                    : "border-gray-300 bg-white hover:border-gray-400"
                 }
-                ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
+                ${
+                  disabled
+                    ? "opacity-50 cursor-not-allowed"
+                    : ""
+                }
               `}
             >
               <input
@@ -77,7 +102,12 @@ export function PresentationOptions({ config, onChange, disabled }: Presentation
                 name="audience"
                 value={option.value}
                 checked={config.audience === option.value}
-                onChange={(e) => updateConfig({ audience: e.target.value as AudienceType })}
+                onChange={(e) =>
+                  updateConfig({
+                    audience: e.target
+                      .value as AudienceType,
+                  })
+                }
                 disabled={disabled}
                 className="sr-only"
               />
@@ -106,19 +136,31 @@ export function PresentationOptions({ config, onChange, disabled }: Presentation
               key={option.value}
               className={`
                 relative cursor-pointer rounded-lg border p-3 text-center focus:outline-none
-                ${config.timeConstraint === option.value
-                  ? 'border-primary-600 ring-2 ring-primary-600 bg-primary-50'
-                  : 'border-gray-300 bg-white hover:border-gray-400'
+                ${
+                  config.timeConstraint === option.value
+                    ? "border-primary-600 ring-2 ring-primary-600 bg-primary-50"
+                    : "border-gray-300 bg-white hover:border-gray-400"
                 }
-                ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
+                ${
+                  disabled
+                    ? "opacity-50 cursor-not-allowed"
+                    : ""
+                }
               `}
             >
               <input
                 type="radio"
                 name="timeConstraint"
                 value={option.value}
-                checked={config.timeConstraint === option.value}
-                onChange={(e) => updateConfig({ timeConstraint: e.target.value as TimeConstraint })}
+                checked={
+                  config.timeConstraint === option.value
+                }
+                onChange={(e) =>
+                  updateConfig({
+                    timeConstraint: e.target
+                      .value as TimeConstraint,
+                  })
+                }
                 disabled={disabled}
                 className="sr-only"
               />
@@ -140,15 +182,21 @@ export function PresentationOptions({ config, onChange, disabled }: Presentation
             <input
               type="checkbox"
               checked={config.includeQA}
-              onChange={(e) => updateConfig({ includeQA: e.target.checked })}
+              onChange={(e) =>
+                updateConfig({
+                  includeQA: e.target.checked,
+                })
+              }
               disabled={disabled}
               className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
             />
             <MessageCircle className="h-4 w-4 ml-3 mr-2 text-gray-400" />
-            <span className="text-sm text-gray-700">Include Q&A preparation</span>
+            <span className="text-sm text-gray-700">
+              Include Q&A preparation
+            </span>
           </label>
         </div>
       </div>
     </div>
-  )
+  );
 }
