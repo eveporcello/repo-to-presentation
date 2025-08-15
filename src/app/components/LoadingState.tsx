@@ -35,7 +35,7 @@ export function LoadingState() {
             Generating Your Presentation
           </h3>
           <p className="text-gray-600 text-sm mt-2">
-            Claude is analyzing your repository and creating a compelling run of show...
+            Claude is analyzing your repository and creating your presentation guide...
           </p>
         </div>
 

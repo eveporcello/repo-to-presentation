@@ -147,18 +147,6 @@ export function PresentationOptions({ config, onChange, disabled }: Presentation
             <MessageCircle className="h-4 w-4 ml-3 mr-2 text-gray-400" />
             <span className="text-sm text-gray-700">Include Q&A preparation</span>
           </label>
-          
-          <label className="flex items-center">
-            <input
-              type="checkbox"
-              checked={config.includeLiveDemo}
-              onChange={(e) => updateConfig({ includeLiveDemo: e.target.checked })}
-              disabled={disabled}
-              className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
-            />
-            <Monitor className="h-4 w-4 ml-3 mr-2 text-gray-400" />
-            <span className="text-sm text-gray-700">Include live demo suggestions</span>
-          </label>
         </div>
       </div>
     </div>

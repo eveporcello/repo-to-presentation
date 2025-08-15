@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useCallback } from 'react'
-import { Github, Presentation, Clock, Users, Sparkles, AlertTriangle } from 'lucide-react'
+import { Github, Presentation, Sparkles, AlertTriangle } from 'lucide-react'
 import { Header } from '@/app/components/Header'
 import { RepoInput } from '@/app/components/RepoInput'
 import { PresentationOptions } from '@/app/components/PresentationOptions'
@@ -133,31 +133,11 @@ export default function HomePage() {
                 </div>
               </div>
               <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
-                From Repo to <span className="text-primary-600">Runway</span>
+                Repo to <span className="text-primary-600">Presentation</span>
               </h1>
               <p className="mt-6 max-w-2xl mx-auto text-xl text-gray-600 leading-relaxed">
-                Transform any GitHub repository into a compelling presentation with AI-powered insights. 
-                Perfect for conference talks, team demos, and technical presentations.
+                Turn your GitHub demo files into your best presentation.
               </p>
-            </div>
-
-            {/* Feature highlights */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 animate-slide-up">
-              <div className="card p-6 text-center hover:scale-105 transition-transform duration-200">
-                <Users className="h-8 w-8 text-primary-600 mx-auto mb-3" />
-                <h3 className="font-semibold text-gray-900 mb-2">Audience-Aware</h3>
-                <p className="text-gray-600 text-sm">Adapts content and language for your specific audience</p>
-              </div>
-              <div className="card p-6 text-center hover:scale-105 transition-transform duration-200">
-                <Clock className="h-8 w-8 text-primary-600 mx-auto mb-3" />
-                <h3 className="font-semibold text-gray-900 mb-2">Time-Optimized</h3>
-                <p className="text-gray-600 text-sm">Perfect pacing for any presentation slot</p>
-              </div>
-              <div className="card p-6 text-center hover:scale-105 transition-transform duration-200">
-                <Presentation className="h-8 w-8 text-primary-600 mx-auto mb-3" />
-                <h3 className="font-semibold text-gray-900 mb-2">Speaker Notes</h3>
-                <p className="text-gray-600 text-sm">Detailed notes, timing, and Q&A preparation</p>
-              </div>
             </div>
 
             {/* Input Form */}

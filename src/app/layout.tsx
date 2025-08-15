@@ -9,13 +9,13 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'Repo to Runway',
+  title: 'Repo to Presentation',
   description: 'Transform your GitHub repositories into compelling presentation materials with AI',
   keywords: ['github', 'presentation', 'developer tools', 'AI', 'Claude'],
   authors: [{ name: 'Eve Porcello', url: 'https://moonhighway.com' }],
   creator: 'Eve Porcello',
   openGraph: {
-    title: 'Repo to Runway',
+    title: 'Repo to Presentation',
     description: 'Transform your GitHub repositories into compelling presentation materials',
     type: 'website',
     locale: 'en_US',
