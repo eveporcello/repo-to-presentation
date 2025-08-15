@@ -160,9 +160,9 @@ export default function HomePage() {
                 </div>
               </div>
               <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
-                {" "}
+                Repo{" "}
                 <span className="text-primary-600">
-                  Repo
+                  Presenter
                 </span>
               </h1>
               <p className="mt-6 max-w-2xl mx-auto text-xl text-gray-600 leading-relaxed">
