@@ -1,3 +1,20 @@
+/**
+ * @file RunOfShowDisplay.tsx
+ * @description
+ * Renders the AI-generated presentation “run of show” for a given GitHub repository.
+ * Displays presentation sections, metadata, and controls for expanding, collapsing,
+ * and exporting the presentation content.
+ *
+ * @remarks
+ * - Sections can be toggled individually or expanded/collapsed all at once.
+ * - Includes repository metadata such as language, stars, audience, duration, and generation date.
+ * - Provides an export-to-Markdown function to download the entire run of show.
+ * - Displays AI-generated potential Q&A and technical preparation questions.
+ * - Includes “New Presentation” button to reset and start over.
+ * - Uses Tailwind CSS utility classes for responsive layout and styling.
+ * - Accessibility consideration: Interactive controls use semantic HTML and icons include descriptive text.
+ */
+
 import { useState } from "react";
 import {
   Download,

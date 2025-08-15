@@ -1,3 +1,19 @@
+/**
+ * @file layout.tsx
+ * @description
+ * Root layout component for the Repo Presenter Next.js application.
+ * Defines global metadata, imports global styles, and applies base
+ * typography and layout styling across all pages.
+ *
+ * @remarks
+ * - Uses Next.js `Metadata` for SEO, social previews, and crawler directives.
+ * - Loads the Inter font from Google Fonts with `display: swap` and a CSS variable for Tailwind integration.
+ * - Wraps all pages in a consistent HTML structure with `lang="en"`, full-height body, and
+ *   a gray background.
+ * - Applies `font-sans` and antialiased text for improved readability.
+ * - Metadata includes Open Graph and Twitter Card settings for link previews.
+ */
+
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";

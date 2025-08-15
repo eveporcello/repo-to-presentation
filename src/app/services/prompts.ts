@@ -1,7 +1,28 @@
+/**
+ * @file PromptGenerator.ts
+ * @description
+ * Builds a single, comprehensive prompt string for Claude to generate a
+ * presentation "run of show" (structured JSON) from a GitHub repository analysis.
+ *
+ * @remarks
+ * - Inputs:
+ *   - `RepoAnalysis` (facts extracted by the GitHub analyzer: README, files, stats).
+ *   - `PresentationConfig` (audience, time constraint, and feature flags).
+ * - Strategy:
+ *   - Assembles a system prompt and several well-labeled sections (analysis, requirements,
+ *     storytelling guidance, instructions, and the exact JSON output schema).
+ *   - Uses audience/time maps to tailor tone, focus, and pacing.
+ * - Output:
+ *   - Returns a single string optimized for predictable JSON output from the model.
+ * - Side effects:
+ *   - None; this class is pure string composition.
+ */
+
 import type { RepoAnalysis } from "./github";
 import type { PresentationConfig } from "@/app/page";
 
 export class PromptGenerator {
+  /** Audience-specific contextualization used to tailor tone and content. */
   private static readonly AUDIENCE_CONTEXT = {
     conference:
       "developer conference with technical audience expecting innovative solutions, best practices, and cutting-edge approaches",
@@ -15,6 +36,7 @@ export class PromptGenerator {
       "hands-on learning session with interactive components, practical exercises, and audience participation",
   } as const;
 
+  /** Time-slot guidance to constrain scope and depth. */
   private static readonly TIME_GUIDANCE = {
     "5min":
       "Lightning talk - hit only the most impressive highlights and key innovations",
@@ -26,6 +48,7 @@ export class PromptGenerator {
       "Detailed exploration with multiple examples, architecture deep-dives, hands-on exercises, and extensive Q&A preparation",
   } as const;
 
+  /** Primary focus areas per audience to shape emphasis. */
   private static readonly FOCUS_AREAS = {
     conference:
       "technical innovation, architecture decisions, performance optimizations, unique solutions",
@@ -39,6 +62,15 @@ export class PromptGenerator {
       "practical application, hands-on exercises, interactive demonstrations, learning objectives",
   } as const;
 
+  /**
+   * Compose the full model prompt:
+   * - system prompt
+   * - repository analysis block
+   * - requirements based on config
+   * - storytelling framework
+   * - actionable instructions
+   * - strict JSON output schema
+   */
   static generate(
     repoAnalysis: RepoAnalysis,
     config: PresentationConfig
@@ -57,6 +89,7 @@ export class PromptGenerator {
     ].join("\n\n");
   }
 
+  /** System-role guidance that sets audience context and expectations. */
   private static buildSystemPrompt(
     config: PresentationConfig
   ): string {
@@ -65,6 +98,10 @@ export class PromptGenerator {
     }.`;
   }
 
+  /**
+   * Inject concrete repo facts to the model:
+   * - basic metadata, README excerpt, top-level structure, and selected key files.
+   */
   private static buildRepoAnalysisSection(
     repoAnalysis: RepoAnalysis
   ): string {
@@ -100,6 +137,7 @@ ${
 }`;
   }
 
+  /** Translate `PresentationConfig` into explicit, model-readable requirements. */
   private static buildRequirementsSection(
     config: PresentationConfig
   ): string {
@@ -113,6 +151,7 @@ ${
 - Include Live Demo Suggestions: ${config.includeLiveDemo}`;
   }
 
+  /** Lightweight storytelling scaffold to encourage a persuasive narrative arc. */
   private static buildStorytellingSection(): string {
     return `STORYTELLING FRAMEWORK:
 Create a narrative arc that follows this structure:
@@ -123,6 +162,10 @@ Create a narrative arc that follows this structure:
 5. Call-to-action: What should the audience do next?`;
   }
 
+  /**
+   * Concrete directives that shape pacing, depth, and delivery.
+   * Adds workshop-specific guidance when applicable.
+   */
   private static buildInstructionsSection(
     config: PresentationConfig
   ): string {
@@ -142,6 +185,10 @@ Create a narrative arc that follows this structure:
     return baseInstructions + workshopAddition;
   }
 
+  /**
+   * Provide an exact JSON schema to maximize structured, parseable output.
+   * Includes optional Q&A blocks depending on `includeQA`.
+   */
   private static buildOutputFormatSection(
     config: PresentationConfig
   ): string {

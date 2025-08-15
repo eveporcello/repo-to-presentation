@@ -1,3 +1,33 @@
+/**
+ * @file PresentationOptions.tsx
+ * @description
+ * Configurator UI for presentation generation.
+ *
+ * Allows the user to:
+ * - Select a target audience (affects content tone & depth)
+ * - Choose a time constraint (affects length & level of detail)
+ * - Toggle optional features (e.g., Q&A preparation)
+ *
+ * Typically rendered as part of a larger form or wizard that
+ * eventually sends a {@link PresentationConfig} to the API.
+ *
+ * @component
+ * @example
+ * ```tsx
+ * <PresentationOptions
+ *   config={config}
+ *   onChange={setConfig}
+ *   disabled={isLoading}
+ * />
+ * ```
+ *
+ * @remarks
+ * - Options are drawn from local arrays `audienceOptions` and `timeOptions`.
+ * - Tailwind classes provide both the active state (ring, border, bg) and
+ *   disabled state (opacity, cursor).
+ * - This component is purely presentational; business logic lives in its parent.
+ */
+
 import { Users, Clock, MessageCircle } from "lucide-react";
 import type {
   PresentationConfig,
@@ -6,11 +36,15 @@ import type {
 } from "@/app/page";
 
 interface PresentationOptionsProps {
+  /** Current presentation configuration values. */
   config: PresentationConfig;
+  /** Callback invoked with a merged configuration when any option changes. */
   onChange: (config: PresentationConfig) => void;
+  /** If true, disables all interactive controls. */
   disabled?: boolean;
 }
 
+/** Predefined audience types with user-facing labels and descriptions. */
 const audienceOptions: Array<{
   value: AudienceType;
   label: string;
@@ -46,6 +80,7 @@ const audienceOptions: Array<{
   },
 ];
 
+/** Predefined time constraints with human-readable labels. */
 const timeOptions: Array<{
   value: TimeConstraint;
   label: string;
@@ -55,6 +90,13 @@ const timeOptions: Array<{
   { value: "30min", label: "30 minutes" },
   { value: "1hour", label: "1 hour" },
 ];
+
+/**
+ * Renders a form-like set of controls for selecting presentation parameters.
+ *
+ * @param props - {@link PresentationOptionsProps}
+ * @returns {JSX.Element} The rendered options UI.
+ */
 
 export function PresentationOptions({
   config,

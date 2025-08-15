@@ -1,3 +1,22 @@
+/**
+ * @file Header.tsx
+ * @description
+ * Top-level header/navigation bar for the Repo to Runway application.
+ *
+ * This component is a stateless function component that renders:
+ * - Application branding (title + optional logo/identifier)
+ * - A primary navigation link to the creator’s website
+ *
+ * It is intended to be displayed on every page as part of the global layout.
+ * Styling is implemented with Tailwind CSS utility classes, and
+ * icons are provided by the `lucide-react` icon set.
+ *
+ * @remarks
+ * - This header uses a fixed max width (`max-w-7xl`) and responsive horizontal padding.
+ * - Navigation links open in a new tab (`target="_blank"`) with `rel="noopener noreferrer"` for security.
+ * - To add more nav links, extend the `<nav>` section with additional `<a>` tags or extracted components.
+ */
+
 import { ExternalLink } from "lucide-react";
 
 export function Header() {

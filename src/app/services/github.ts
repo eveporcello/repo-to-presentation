@@ -1,10 +1,27 @@
-// src/services/github.ts
+/**
+ * @file GitHubAnalyzer.ts
+ * @description
+ * Utility class and interfaces for analyzing GitHub repositories using the GitHub REST API.
+ * Handles authentication, metadata retrieval, README/config file parsing, and key file analysis.
+ *
+ * @remarks
+ * - Uses `@octokit/rest` to interact with the GitHub API.
+ * - Authenticates requests via a Personal Access Token (PAT) from `process.env.GITHUB_TOKEN`.
+ * - Supports fetching repository metadata, topics, README content, package/config files,
+ *   and identifying key project files.
+ * - Includes error handling for 404 (not found) and 403 (forbidden / rate-limited) responses.
+ * - Limits size of fetched content to prevent excessive API usage and memory consumption.
+ */
+
 import { Octokit } from "@octokit/rest";
 
+// Initialize Octokit client with authentication from environment variable.
+// If `GITHUB_TOKEN` is not set, requests will be unauthenticated with stricter rate limits.
 const octokit = new Octokit({
   auth: process.env.GITHUB_TOKEN,
 });
 
+// Structured result of repository analysis
 export interface RepoAnalysis {
   name: string;
   description: string;
@@ -26,6 +43,7 @@ export interface RepoAnalysis {
 }
 
 export class GitHubAnalyzer {
+  // Common README filename variants to search for
   private static readonly README_FILES = [
     "README.md",
     "readme.md",
@@ -33,6 +51,8 @@ export class GitHubAnalyzer {
     "README.txt",
     "README",
   ];
+
+  // Common configuration/manifest files to search for
   private static readonly CONFIG_FILES = [
     "package.json",
     "pyproject.toml",
@@ -40,10 +60,16 @@ export class GitHubAnalyzer {
     "go.mod",
     "pom.xml",
   ];
+
+  // Limits to prevent excessive data retrieval
   private static readonly MAX_FILE_SIZE = 50000;
   private static readonly MAX_CONTENT_SIZE = 3000;
   private static readonly MAX_README_SIZE = 5000;
 
+  /**
+   * Parse a GitHub repository URL into its owner and repo name.
+   * Supports optional `.git` suffix and trailing path segments.
+   */
   static parseRepoUrl(repoUrl: string): {
     owner: string;
     repo: string;
@@ -62,6 +88,9 @@ export class GitHubAnalyzer {
     return { owner, repo: repo.replace(/\.git$/, "") };
   }
 
+  /**
+   * Determine if a filename matches common "key" file patterns.
+   */
   static isKeyFile(filename: string): boolean {
     const keyPatterns = [
       /^(index|main|app|server)\.(js|ts|jsx|tsx|py|go|rs|java)$/i,
@@ -76,6 +105,9 @@ export class GitHubAnalyzer {
     );
   }
 
+  /**
+   * Map file extensions to human-readable type names.
+   */
   static getFileType(filename: string): string {
     const ext = filename.split(".").pop()?.toLowerCase();
     const typeMap: Record<string, string> = {
@@ -91,6 +123,13 @@ export class GitHubAnalyzer {
     return typeMap[ext || ""] || "Other";
   }
 
+  /**
+   * Orchestrate full repository analysis:
+   * - Fetch metadata
+   * - Fetch README
+   * - Fetch configuration file(s)
+   * - Analyze file structure & collect key files
+   */
   async analyzeRepository(
     repoUrl: string
   ): Promise<RepoAnalysis> {
@@ -136,6 +175,10 @@ export class GitHubAnalyzer {
     }
   }
 
+  /**
+   * Fetch repository metadata (name, description, language, topics, stats).
+   * Throws descriptive errors for common HTTP error codes.
+   */
   private async fetchRepositoryData(
     owner: string,
     repo: string
@@ -160,6 +203,10 @@ export class GitHubAnalyzer {
     return data;
   }
 
+  /**
+   * Attempt to retrieve README content from common filename variants.
+   * Returns an empty string if no README is found.
+   */
   private async fetchReadme(
     owner: string,
     repo: string
@@ -184,6 +231,10 @@ export class GitHubAnalyzer {
     return "";
   }
 
+  /**
+   * Attempt to retrieve a primary configuration/manifest file.
+   * Returns parsed JSON for package.json, otherwise raw content with type metadata.
+   */
   private async fetchConfigFile(
     owner: string,
     repo: string
@@ -211,6 +262,10 @@ export class GitHubAnalyzer {
     return null;
   }
 
+  /**
+   * Retrieve repository root contents, list file structure, and fetch key files.
+   * Limits the number of items analyzed to prevent excessive API usage.
+   */
   private async analyzeFileStructure(
     owner: string,
     repo: string
@@ -232,6 +287,7 @@ export class GitHubAnalyzer {
     if (!Array.isArray(contents))
       return { fileStructure, keyFiles };
 
+    // Sort directories before files, alphabetically, and limit to 30 entries
     const sortedContents = contents
       .sort((a, b) => {
         if (a.type !== b.type)
@@ -247,6 +303,7 @@ export class GitHubAnalyzer {
         }`
       );
 
+      // Only retrieve small-enough key files
       if (
         item.type === "file" &&
         GitHubAnalyzer.isKeyFile(item.name) &&

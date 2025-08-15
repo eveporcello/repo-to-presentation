@@ -1,3 +1,25 @@
+/**
+ * @file page.tsx
+ * @description
+ * Main application page for the "Repo Presenter" tool. This component provides
+ * the complete UI and state management for turning a GitHub repository into a
+ * structured presentation run-of-show.
+ *
+ * @remarks
+ * - Integrates core UI components: `Header`, `RepoInput`, `PresentationOptions`,
+ *   `RunOfShowDisplay`, and `LoadingState`.
+ * - Manages state for repository URL, presentation configuration, generated run-of-show
+ *   data, and API call status.
+ * - Handles user input, validates repository URL format, and triggers the backend
+ *   API (`/api/generate-runofshow`) to produce presentation content.
+ * - Implements loading indicators, error messaging, and reset functionality.
+ * - Responsive design with Tailwind utility classes, including animated transitions
+ *   for a polished UX.
+ * - Accessibility consideration: Form controls and interactive elements use semantic
+ *   HTML and proper `disabled` states but could be enhanced with ARIA roles for
+ *   dynamic feedback.
+ */
+
 "use client";
 
 import { useState, useCallback } from "react";
