@@ -4,10 +4,11 @@
 
 ## Video Walkthrough
 
+➡️ 🎥 [Check out the Demo!](https://player.mux.com/3wBDFoYYaZA6GCNmxCKZ4c2NL1pd3hHcWj4BFlXKOHI)
+
 [![Watch the demo](https://image.mux.com/3wBDFoYYaZA6GCNmxCKZ4c2NL1pd3hHcWj4BFlXKOHI/thumbnail.png)](https://player.mux.com/3wBDFoYYaZA6GCNmxCKZ4c2NL1pd3hHcWj4BFlXKOHI)
 
-
-## Quick Demo
+## Try the App
 
 **Try It Now: [https://repo-presenter.vercel.app](https://repo-presenter.vercel.app)**
 
