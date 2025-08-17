@@ -2,6 +2,11 @@
 
 **Turn your GitHub repo into your best presentation.**
 
+## Video Walkthrough
+
+[![Watch the demo](https://image.mux.com/3wBDFoYYaZA6GCNmxCKZ4c2NL1pd3hHcWj4BFlXKOHI/thumbnail.png)](https://player.mux.com/3wBDFoYYaZA6GCNmxCKZ4c2NL1pd3hHcWj4BFlXKOHI)
+
+
 ## Quick Demo
 
 **Try It Now: [https://repo-presenter.vercel.app](https://repo-presenter.vercel.app)**
