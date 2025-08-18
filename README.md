@@ -143,14 +143,15 @@ This tool eliminates the blank-page problem that prevents developers from sharin
 
 ## Future Enhancements
 
-If I'd had a bit more time, these are some features I would like to incorporate:
+If I'd had a bit more time, these are some features I would like to add:
 
-* **Create Slides**: A quick win would be to have the app generate slides with reveal.js or similar tool.
-* **Integrate with GitHub MCP Server**: Auth is an afterthought here, and we opted to use public repos only. It would be nice to incorporate token-based auth or even use the GitHub MCP Server.
+* **Creating Slides**: A quick win would be to have the app generate slides with reveal.js or similar tool.
+* **Integrating with GitHub MCP Server**: Auth is an afterthought here, and we opted to use public repos only. It would be nice to incorporate token-based auth or even use the GitHub MCP Server.
 * **Pacing Timer**: The app would be way cooler if we could click a `Start` button to `Run` the presentation. That way if you talked for 10 minutes instead of the 5 minutes allotted, the pacing could adjust to accelerate or even cut other sections.
 * **Improvements to the Prompts**: A better version of this app would have more user input about the audience and might have additional opinionated guidelines from the app on how to deliver a quality presentation.
 * **Better Repo Parsing:** currently assumes the repo has a solid README or code structure. We could expand to handle repos without too much documentation better.
-* **Add Performance Upgrades for Bigger Repos**: This could probably use some performance tuning to make sure even hefty repos are scannable.
+* **Performance Upgrades for Bigger Repos**: This could probably use some performance tuning to make sure even hefty repos are scannable.
+* **A full tutorial**: With more time, I would build the app step by step, enhance simplicity through refactoring, and make this an artifact that people can build together.
 
 ## Thank You
 
