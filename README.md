@@ -61,13 +61,6 @@ ANTHROPIC_API_KEY=<**YOUR**KEY**HERE>
 npm run dev
 ```
 
-## Technical Approach and Key Architectural Decisions
-
-* Framework: Next.js 15 with the App Router to use the most modern React stack possible.
-* Styling: Tailwind CSS for a fast, consistent UI.
-* Icons: `lucide-react` for lightweight, scalable icons.
-* AI integration: Anthropic Claude API for analyzing repo content and generating the audience-specific presentation plan.
-
 ### Audience-Aware Prompt Engineering
 
 The core technical piece is the multi-layered prompt system that adapts based on context and analysis:
@@ -102,44 +95,6 @@ const prompt = buildPrompt({
 * Repository Analysis Strategy: Instead of just reading README files, we parse file structure, extract key implementation files, and analyze package.json to understand the technical stack and complexity.
 * Structured JSON Output: Claude returns structured data that our UI can immediately render, edit, and export. This is easy to use for slide generation in future iterations.
 
-## How I Used Claude in this Demo
-
-I wrote a structured prompt with:
-
-* Repo metadata (stars, language, description).
-* User-selected configuration options (audience, time, Q&A flag).
-* Instructions to output a JSON structure with:
-    * Overview
-    * Sections (title, duration, content, key points, presenter notes)
-    * Optional Q&A and technical questions
-    * Closing notes
-
-I iterated by:
-
-* Tuning section title clarity and balance between technical and audience-friendly language.
-* Making durations consistent so they add up to the total time.
-* Keeping key points concise for quick scanning during a talk.
-
-#### Claude Usage in Development
-
-* Code generation: Used Claude to generate component boilerplate (Tailwind classes especially!) and TypeScript interfaces
-* Documentation: Claude helped write clear, comprehensive comments
-* Prompt refinement: Iteratively improved prompts based on output quality
-
-## How This Helps Developers Understand Claude's Potential
-
-I think the speed at which you can generate a presenter artifact like this is pretty amazing. Claude allows the developer to do what they do best (write code), and then they can rely on Claude to generate a list of key talking points that will help them execute their presentation with panache. 
-
-This showcases Claude's ability to analyze complex codebases and pull out an engaging story. 
-
-Every developer faces the same challenge: **"I built something amazing, but how do I present it well?"**
-
-- **Conference speakers** spend 10, 20, 50+ hours planning talks
-- **Job seekers** struggle to articulate their GitHub projects in interviews  
-- **Team leads** need quick ways to demo features to stakeholders
-- **Open source maintainers** want to attract contributors with compelling presentations
-
-This tool eliminates the blank-page problem that prevents developers from sharing their best work.
 
 ## Future Enhancements
 
@@ -152,10 +107,3 @@ If I'd had a bit more time, these are some features I would like to add:
 * **Better Repo Parsing:** currently assumes the repo has a solid README or code structure. We could expand to handle repos without too much documentation better.
 * **Performance Upgrades for Bigger Repos**: This could probably use some performance tuning to make sure even hefty repos are scannable.
 * **A full tutorial**: With more time, I would build the app step by step, enhance simplicity through refactoring, and make this an artifact that people can build together.
-
-## Thank You
-
-This was genuinely so fun. 
-
-Thanks,
-Eve
